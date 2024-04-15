@@ -18,4 +18,14 @@ public class Consumer {
     public void handleFromDestA2(String content) {
     	logger.info("Message received (1.2) : "+content);
     }
+    
+    @JmsListener(destination = "${destination.b:bar}", containerFactory = "topicFactory")
+    public void handleFromDestA3(String content) {
+    	logger.info("Message received (2.1) : "+content);
+    }
+    
+    @JmsListener(destination = "${destination.b:bar}", containerFactory = "topicFactory")
+    public void handleFromDestA4(String content) {
+    	logger.info("Message received (2.2) : "+content);
+    }
 }

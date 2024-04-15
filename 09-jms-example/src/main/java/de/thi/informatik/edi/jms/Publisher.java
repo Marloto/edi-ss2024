@@ -26,9 +26,13 @@ public class Publisher {
     @Autowired
     private Queue queue;
     
+    @Autowired
+    private Topic topic;
+    
     @GetMapping("/{msg}")
     public String publishMessage(@PathVariable("msg") String content ){
     	jmsTemplate.convertAndSend(queue, content);
+    	jmsTemplate.convertAndSend(topic, content);
         logger.info("Message published : "+content);
         return "Success";
     }

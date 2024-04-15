@@ -21,6 +21,10 @@ public class ActiveMQConfiguration {
 	// Liest Konfigurationen aus verschiedenen Quellen
 	@Value("${destination.a:foo}")
 	private String destinationA;
+	
+	// Liest Konfigurationen aus verschiedenen Quellen
+	@Value("${destination.b:bar}")
+	private String destinationB;
 
 	// Erzeugt Objekte als Beans, die per Dependency
 	// Injection genutzt werden können
@@ -28,6 +32,13 @@ public class ActiveMQConfiguration {
 	public Queue createQueue() {
 		return new ActiveMQQueue(destinationA);
 	}
+	
+	@Bean
+	public Topic createTopic() {
+		return new ActiveMQTopic(destinationB);
+	}
+	
+	
 	
 	
     
