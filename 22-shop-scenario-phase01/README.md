@@ -64,6 +64,39 @@ init-kafka-1  | stock-changes
 
 _Afterwards, go further and extend **Payment** and **Warehouse Service** as well._
 
+_Note: If you want to serialize data as JSON, you can stick with Spring._
+
+```java
+// Imports
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+```
+
+```java
+// Serialize
+static String asJsonString(final Object obj) {
+  try {
+    return new ObjectMapper().writeValueAsString(obj);
+  } catch (Exception e) {
+    throw new RuntimeException(e);
+  }
+}
+```
+
+```java
+// Handle JSON-String
+private void handle(String key, String value) {
+  try {
+    SomeMessage message = new ObjectMapper()
+        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        .readValue(value, SomeMessage.class);
+    // ... do something
+  } catch (Exception e) {
+    e.printStackTrace();
+  }
+}
+```
+
 ## Task (2)
 
 - Depending on programming language, open `warehouse-adapter` (NodeJS) or `warehouse-adapter-spring` (Java, maybe with Spring)
