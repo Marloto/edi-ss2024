@@ -8,7 +8,6 @@ In order to run this example, some additional ressources has to be loaded. This 
 
 ```
 docker compose pull
-docker compose build
 ```
 
 ## Run
