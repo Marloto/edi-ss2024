@@ -29,7 +29,6 @@ init-kafka-1  | stock-changes
 ```
 
 - **Start all containers** for development: `docker compose up -d`
-  - For Linux users:
 - Start only Kafka / Zookeeper: `docker compose up -d kafka zookeeper`
 - Start only Load Balancer: `docker compose up -d nginx`
 - Start only Adapters: `docker compose up -d warehouse-sensor warehouse-adapter`
@@ -40,12 +39,17 @@ init-kafka-1  | stock-changes
 ## Usage
 
 - Import Project **Shopping Service**, **Checkout Service**, **Payment Service** or. **Warehouse Service** into your IDE
-  - Run as Java Application by using `Application.java` for **Shopping Service**, **Checkout Service** and **Payment Service**
-  - Got to browser and use http://localhost:8080/shopping/shop
-  - Select some articles and continue to checkout
-  - _Tip: Pressing Alt+Shift+F in checkout will fill up the form with dummy data_
-  - You will see missing items
-  - Proceed to payment, which will get stuck at `Please wait...`
+- Run as Java Application by using `Application.java` for **Shopping Service**, **Checkout Service** and **Payment Service**
+- Got to browser and use http://localhost:8080/shopping/shop
+- Select some articles and continue to checkout
+- _Tip: Pressing Alt+Shift+F in checkout will fill up the form with dummy data_
+- You will see missing items
+- Proceed to payment, which will get stuck at `Please wait...`
+
+## Utils
+
+- Kafka UI: http://localhost:8090
+- MongoDB UI: http://localhost:8091 (Username: admin, Password: changeme)
 
 ## Task (1)
 
