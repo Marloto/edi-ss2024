@@ -94,6 +94,14 @@ services:
       ME_CONFIG_BASICAUTH_PASSWORD: changeme
     depends_on:
       - mongodb
+  
+  # Sensor(s) which publishes / subscribes data in MQTT broker
+  warehouse-sensor:
+    build:
+      context: warehouse-sensor-service
+    restart: unless-stopped
+    environment:
+      - MQTT_HOST=mqtt://mosquitto:1883
 
 volumes:
   kafka_data:
