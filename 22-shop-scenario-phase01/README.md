@@ -85,7 +85,7 @@ static String asJsonString(final Object obj) {
 
 ```java
 // Handle JSON-String
-private void handle(String key, String value) {
+private void handle(String value) {
   try {
     SomeMessage message = new ObjectMapper()
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)

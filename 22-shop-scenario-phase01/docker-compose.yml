@@ -69,6 +69,8 @@ services:
       - mosquitto_log:/mosquitto/log
       - ./iot-broker/mosquitto.conf:/mosquitto/config/mosquitto.conf
     restart: unless-stopped
+    ports:
+      - 1883:1883
   
   # Kafka UI
   kui:
