@@ -59,7 +59,7 @@ public class ReadFileImperative {
 	}
 
 	private static void doReadFile(Consumer<String> cons, Runnable complete) {
-		new Thread(() -> {
+		new Thread(() -> { // je nachdem wie aktiv, entweder ThreadPool od. bezogen auf I/O
 			try(BufferedReader reader = new BufferedReader(new FileReader("prices.csv"))) {
 				String line = reader.readLine();
 				LocalDate lastMonth = null;

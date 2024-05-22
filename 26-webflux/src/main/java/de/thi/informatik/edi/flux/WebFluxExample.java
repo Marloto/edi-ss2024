@@ -5,7 +5,8 @@ import java.time.Duration;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.util.function.Tuples;
+import reactor.core.publisher.Sinks;
+import reactor.core.publisher.Sinks.Many;
 
 public class WebFluxExample<T> {
 	public static void main(String[] args) throws IOException {
@@ -128,19 +129,60 @@ public class WebFluxExample<T> {
 //				fromArray.reduce((a, b) -> a + b), 
 //				(a, b) -> a / b);
 		
-		Flux.interval(Duration.ofSeconds(1))
-			.buffer(3, 1)
-			.flatMap(win -> 
-				Flux.fromIterable(win)
-					.map(el -> Tuples.of(el, 0))
-					.reduce((a, b) -> Tuples.of(a.getT1() + b.getT1(), a.getT2() + 1))
-					.map(el -> el.getT1() / el.getT2())
-			).subscribe(System.out::println);
+//		Flux.interval(Duration.ofSeconds(1))
+//			.buffer(3, 1)
+//			.flatMap(win -> 
+//				Flux.fromIterable(win)
+//					.map(el -> Tuples.of(el, 0))
+//					.reduce((a, b) -> Tuples.of(a.getT1() + b.getT1(), a.getT2() + 1))
+//					.map(el -> el.getT1() / el.getT2())
+//			).subscribe(System.out::println);
 		
 		
 		// Einen Durchschnitt berechnen?
 		// -> anzahl
 		// -> verrechnung / summe
+		
+		
+		
+//		Many<Double> many = Sinks.many().multicast().onBackpressureBuffer();
+//		Flux<Double> flux = Flux.<Double>create(sink -> {
+		
+//		System.out.println("Start flux with thread...");
+//		new Thread(() -> {
+//			// Erzeugung
+//			while(true) {
+//				double value = Math.random();
+//				//sink.next(value);
+//				many.tryEmitNext(value);
+//				try {
+//					Thread.sleep(1000);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		}).start();
+		
+//		});
+		
+//		Flux<Double> flux = many.asFlux();
+//		// Weitere Verwendung
+//		new Thread(() -> {
+//			// Verwendung ohne direkten Bezug
+//			flux.subscribe(System.out::println);
+//		}).start();
+//		new Thread(() -> {
+//			// Verwendung ohne direkten Bezug
+//			flux.subscribe(System.out::println);
+//		}).start();
+		
+		
+		Flux.interval(Duration.ofSeconds(1))
+			.doOnEach(el -> System.out.println(el.get()))
+			.flatMap(el -> Mono.error(new RuntimeException("do something")))
+			.onErrorReturn("Hello Error")
+			.subscribe(System.out::println);
+		
 		
 		
 		System.in.read();

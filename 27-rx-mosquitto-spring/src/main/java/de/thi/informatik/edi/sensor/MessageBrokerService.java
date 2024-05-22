@@ -46,17 +46,17 @@ public class MessageBrokerService {
 	}
 	
 	public Flux<Tuple2<String, String>> subscribe(String topic) {
+		Many<Tuple2<String, String>> sink = Sinks.many().multicast().onBackpressureBuffer();
 		// Senke erstellen: Hot od. Cold? Hot
-		Many<Tuple2<String, String>> many = Sinks.many().multicast().onBackpressureBuffer();
 		try {
 			client.subscribe(topic, (t, msg) -> {
 				// senke befüllen: mit allem :)
-				many.tryEmitNext(Tuples.of(t, new String(msg.getPayload())));
+				sink.tryEmitNext(Tuples.of(t, new String(msg.getPayload())));
 			});
 		} catch (MqttException e) {
 			e.printStackTrace();
 		}
-		return many.asFlux();
+		return sink.asFlux();
 	}
 	
 }
