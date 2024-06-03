@@ -9,13 +9,15 @@ import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
+import org.apache.kafka.streams.kstream.KStream;
 
 public class HelloWorldExample01 {
 
 	public static void main(String[] args) {
+		// Erzeugen des Builders
 		StreamsBuilder builder = new StreamsBuilder();
 
-		
+		builder.stream("hello-world").foreach((key, value) -> System.out.println("Hello, " + value));
 		
 		
 		Properties config = new Properties();

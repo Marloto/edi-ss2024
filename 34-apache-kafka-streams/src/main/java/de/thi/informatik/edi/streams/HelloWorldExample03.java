@@ -27,7 +27,7 @@ public class HelloWorldExample03 {
 		config.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
 
 		Topology build = builder.build();
-		System.out.println(build.describe());
+		System.out.println(build.describe()); // <- Ausgabe der Topology
 		
 		KafkaStreams streams = new KafkaStreams(build, config);
 		streams.start();

@@ -12,10 +12,16 @@ public class FilterExample {
 	public static void main(String[] args) {
 		StreamsBuilder builder = new StreamsBuilder();
 
+		builder.<Void, String>stream("hello-world")
+			.filterNot((key, value) -> value.isBlank())
+			.to("hello-world-answer");
+		
 		Properties config = new Properties();
 		config.put(StreamsConfig.APPLICATION_ID_CONFIG, "dev1");
 		config.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
 		config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+		
+		// Standard Serdes Config
 		config.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.Void().getClass());
 		config.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
 

@@ -18,12 +18,20 @@ public class SerdesExample {
 	public static void main(String[] args) {
 		StreamsBuilder builder = new StreamsBuilder();
 
+
+		// In Prüfung können Serdes-Angaben, wenn nicht explizit gefragt, gerne 
+		// weggelassen werden
+		builder.stream("hello-world-2", Consumed.with(Serdes.Void(), mySerdes()))
+			.mapValues((value) -> value.getMsg())
+			.foreach((key, value) -> System.out.println("Hello, " + value));
+		
+		
 		Properties config = new Properties();
 		config.put(StreamsConfig.APPLICATION_ID_CONFIG, "dev1");
 		config.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
 		config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-		config.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.Void().getClass());
-		config.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
+//		config.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.Void().getClass());
+//		config.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
 
 		KafkaStreams streams = new KafkaStreams(builder.build(), config);
 		streams.start();
@@ -32,7 +40,10 @@ public class SerdesExample {
 	}
 
 	private static Serde<IdObject> mySerdes() {
-		return null;
+		return Serdes.serdeFrom(
+			(topic, obj) -> writeValue(obj),
+			(topic, dataInBytes) -> readValue(dataInBytes)
+		);
 	}
 
 	private static byte[] writeValue(IdObject data) {

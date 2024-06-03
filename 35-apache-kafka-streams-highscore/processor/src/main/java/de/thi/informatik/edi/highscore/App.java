@@ -21,7 +21,7 @@ public class App {
 		System.out.println(build.describe());
 		KafkaStreams streams = new KafkaStreams(build, config);
 		streams.start();
-
+		
 		Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
 	}
 }
