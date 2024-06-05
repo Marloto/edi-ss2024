@@ -46,6 +46,7 @@ public class PatientMonitoringTopology {
 					.windowedBy(window)
 					.count()
 					.suppress(Suppressed.untilWindowCloses(BufferConfig.unbounded().shutDownWhenFull()));
+		// -> was ist der Zeitbezug für das "suppress" Ergebnis, also das letzte Ereignis was sich hier als Count ergibt
 		
 		KStream<String, Long> highPulse = pulseCounts.toStream()
 			.filter((key, value) -> value >= 100)
@@ -57,17 +58,17 @@ public class PatientMonitoringTopology {
 		
 		// KStream zu KStream, hier JoinWindow als Möglichkeit zum Kombinieren
 		// <- hier ansetzen
-		KStream<String, CombinedVitals> join = highPulse.join(highTemp, (pulseRate, bodyTemp) -> 
+		KStream<String, CombinedVitals> vitalsJoined = highPulse.join(highTemp, (pulseRate, bodyTemp) -> 
 			new CombinedVitals(pulseRate.intValue(), bodyTemp), joinWindows);
 		
-		join.to(Configurator.ALERTS);
+		vitalsJoined.to(Configurator.ALERTS);
 		
         pulseCounts
 	        .toStream()
 	        .print(Printed.<Windowed<String>, Long>toSysOut().withLabel("pulse-counts"));
-//	    highPulse.print(Printed.<String, Long>toSysOut().withLabel("high-pulse"));
-//	    highTemp.print(Printed.<String, BodyTemp>toSysOut().withLabel("high-temp"));
-//	    vitalsJoined.print(Printed.<String, CombinedVitals>toSysOut().withLabel("vitals-joined"));
+	    highPulse.print(Printed.<String, Long>toSysOut().withLabel("high-pulse"));
+	    highTemp.print(Printed.<String, BodyTemp>toSysOut().withLabel("high-temp"));
+	    vitalsJoined.print(Printed.<String, CombinedVitals>toSysOut().withLabel("vitals-joined"));
 		
 		return builder.build();
 	}
