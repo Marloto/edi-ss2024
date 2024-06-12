@@ -1,7 +1,5 @@
 package de.thi.informatik.edi.flink.hello;
 
-import java.util.Arrays;
-
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
@@ -33,7 +31,7 @@ public class KafkaSourceJob {
                 .setRecordSerializer(serializer)
                 .build();
         
-        env.fromSource(source, WatermarkStrategy.noWatermarks(), "hello-world")
+        env.fromSource(source, WatermarkStrategy.noWatermarks(), "hello-world") // <- name of source
 	        .map((value) -> "Hello, " + value)
 	        .sinkTo(sink);
 
