@@ -39,11 +39,13 @@ init-kafka-1  | stock-changes
 
 - Import Project **Shopping Service**, **Checkout Service**, **Payment Service** or. **Warehouse Service** into your IDE
 - Run as Java Application by using `Application.java` for **Shopping Service**, **Checkout Service** and **Payment Service**
-- Got to browser and use http://localhost:8080/shopping/shop
+- Got to browser and use http://localhost:12345/shopping/shop
 - Select some articles and continue to checkout
 - _Tip: Pressing Alt+Shift+F in checkout will fill up the form with dummy data_
 - You will see missing items
 - Proceed to payment, which will get stuck at `Please wait...`
+
+Additionally, you can use the simulator to create shop data: http://localhost:12345/simulator
 
 ## Utils
 
