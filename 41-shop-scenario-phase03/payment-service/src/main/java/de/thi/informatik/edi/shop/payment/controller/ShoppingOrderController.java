@@ -24,7 +24,7 @@ public class ShoppingOrderController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getOrder(@PathVariable String id) {
-		Payment payment = this.payments.getOrCreateByOrderRef(UUID.fromString(id));
+		Payment payment = this.payments.getByOrderRef(UUID.fromString(id));
 		return ResponseEntity.ok(ShoppingOrderResponse.fromPayment(payment));
 	}
 }

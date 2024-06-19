@@ -21,8 +21,8 @@ import de.thi.informatik.edi.stream.messages.ShoppingOrderMessage;
 public class Generator {
 	static final String CART_TOPIC = "cart";
 	static final String SHIPPING_TOPIC = "shipping";
-	static final String PAYMENT_TOPIC = "cart";
-	static final String ORDER_TOPIC = "cart";
+	static final String PAYMENT_TOPIC = "payment";
+	static final String ORDER_TOPIC = "order";
 	private static int DELAY = 1000;
 	public static void main(String[] args) throws UnknownHostException, InterruptedException {
 		
