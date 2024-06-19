@@ -41,7 +41,7 @@
         crossorigin="anonymous"></script>
     <script>
         (function (baseUrl) {
-            function send(path, cb, method = "GET", data = undefined) {
+            function send(path, cb, method = "GET", data = undefined, onError = undefined) {
                 const req = new XMLHttpRequest();
                 req.onreadystatechange = () => {
                     if (req.readyState === 4 && req.status == 200) {
@@ -50,6 +50,8 @@
                         cb();
                     } else if (req.readyState === 4 && req.status == 201) {
                         cb(req.getResponseHeader('Location'));
+                    } else if (req.readyState === 4 && req.status == 404 && onError) {
+                        onError();
                     }
                 };
                 req.open(method, path.startsWith('http') ? path : (baseUrl + "/" + path), true);
@@ -68,6 +70,8 @@
                     paymentUuid = order.payment;
                     console.log(`Found payment ${order.payment} for order ${uuid}`);
                     callback(order);
+                }, "GET", undefined, () => {
+                    window.setTimeout(() => loadPaymentByOrder(callback), 1000);
                 });
             }
 

@@ -29,16 +29,10 @@ public class PaymentService {
 		return optional.get();
 	}
 
-	public Payment getByOrderRef(UUID orderRef) {
-		Optional<Payment> optional = this.payments.findByOrderRef(orderRef);
-		Payment payment;
-		if (optional.isEmpty()) {
-			payment = new Payment(orderRef);
-		} else {
-			payment = optional.get();
-		}
-		return payment;
+	public Optional<Payment> getByOrderRef(UUID orderRef) {
+		return this.payments.findByOrderRef(orderRef);
 	}
+	
 	public Payment getOrCreateByOrderRef(UUID orderRef) {
 		Optional<Payment> optional = this.payments.findByOrderRef(orderRef);
 		Payment payment;

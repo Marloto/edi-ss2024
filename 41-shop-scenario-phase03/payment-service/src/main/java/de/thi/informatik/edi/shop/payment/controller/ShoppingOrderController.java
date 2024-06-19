@@ -1,5 +1,6 @@
 package de.thi.informatik.edi.shop.payment.controller;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,10 @@ public class ShoppingOrderController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getOrder(@PathVariable String id) {
-		Payment payment = this.payments.getByOrderRef(UUID.fromString(id));
-		return ResponseEntity.ok(ShoppingOrderResponse.fromPayment(payment));
+		Optional<Payment> payment = this.payments.getByOrderRef(UUID.fromString(id));
+		if(payment.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(ShoppingOrderResponse.fromPayment(payment.get()));
 	}
 }
