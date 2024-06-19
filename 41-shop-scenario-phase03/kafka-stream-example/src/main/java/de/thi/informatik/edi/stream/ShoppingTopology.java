@@ -28,6 +28,8 @@ public class ShoppingTopology {
     public static Topology build() {
             StreamsBuilder builder = new StreamsBuilder();
             
+            
+            
             return builder.build();
     }
 }

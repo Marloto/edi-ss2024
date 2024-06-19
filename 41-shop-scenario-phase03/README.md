@@ -115,6 +115,15 @@ private void handle(String key, String value) {
 
 _Picking has to be synchronized with **Warehouse Service**._
 
+## Task (3)
+
+_Use Kafka Streams_
+
+- Calculate sales per article
+- Calculate number of sold items per timewindow
+- Calculate number of sold items per address
+- Calculate aborted buy process per article
+
 ## Services
 
 _Short description for all services in this project_
