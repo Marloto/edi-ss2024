@@ -24,6 +24,14 @@ public class Generator {
 	static final String PAYMENT_TOPIC = "payment";
 	static final String ORDER_TOPIC = "order";
 	private static int DELAY = 1000;
+	private static boolean muted = true;
+	
+	private static void print(String msg) {
+		if(!muted) {
+			System.out.println(msg);
+		}
+	}
+	
 	public static void main(String[] args) throws UnknownHostException, InterruptedException {
 		
 		Properties config = new Properties();
@@ -46,7 +54,7 @@ public class Generator {
 				record = new ProducerRecord<>(CART_TOPIC, cartId.toString(), 
 						new ArticleAddedToCartMessage(
 								articleId, "1kg Äpfel", 1, 3.99));
-				producer.send(record, (metadata, e) -> System.out.println("Added to cart..."));
+				producer.send(record, (metadata, e) -> print("Added to cart..."));
 				
 				Thread.sleep(DELAY);
 				
@@ -61,7 +69,7 @@ public class Generator {
 						3.99,
 						new ShoppingOrderItemMessage(articleId, "1kg Äpfel", 1, 3.99)
 				));
-				producer.send(record, (metadata, e) -> System.out.println("Order created..."));
+				producer.send(record, (metadata, e) -> print("Order created..."));
 				
 				Thread.sleep(DELAY);
 				
@@ -76,7 +84,7 @@ public class Generator {
 						3.99,
 						new ShoppingOrderItemMessage(articleId, "1kg Äpfel", 1, 3.99)
 				));
-				producer.send(record, (metadata, e) -> System.out.println("Order placed..."));
+				producer.send(record, (metadata, e) -> print("Order placed..."));
 				
 				Thread.sleep(DELAY);
 				
@@ -86,7 +94,7 @@ public class Generator {
 						"PAYABLE",
 						"CREATED" 
 				));
-				producer.send(record, (metadata, e) -> System.out.println("Payment payable..."));
+				producer.send(record, (metadata, e) -> print("Payment payable..."));
 				
 				Thread.sleep(DELAY);
 				
@@ -96,7 +104,7 @@ public class Generator {
 						"PAYED",
 						"PAYABLE" 
 				));
-				producer.send(record, (metadata, e) -> System.out.println("Payment payed..."));
+				producer.send(record, (metadata, e) -> print("Payment payed..."));
 				
 				Thread.sleep(DELAY);
 				
@@ -111,7 +119,7 @@ public class Generator {
 						3.99,
 						new ShoppingOrderItemMessage(articleId, "1kg Äpfel", 1, 3.99)
 				));
-				producer.send(record, (metadata, e) -> System.out.println("Order marked as payed..."));
+				producer.send(record, (metadata, e) -> print("Order marked as payed..."));
 				
 				Thread.sleep(DELAY);
 				
@@ -121,7 +129,7 @@ public class Generator {
 						orderId,
 						new ShippingItemMessage(articleId, 1)
 				));
-				producer.send(record, (metadata, e) -> System.out.println("Shipping done..."));
+				producer.send(record, (metadata, e) -> print("Shipping done..."));
 			}
 		}
 	}

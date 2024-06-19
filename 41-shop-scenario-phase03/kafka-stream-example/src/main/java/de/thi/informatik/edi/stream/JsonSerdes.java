@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.thi.informatik.edi.stream.messages.AggregatePrice;
+import de.thi.informatik.edi.stream.messages.ArticleAddedToCartMessage;
 import de.thi.informatik.edi.stream.messages.ArticleMessage;
 import de.thi.informatik.edi.stream.messages.CartMessage;
 import de.thi.informatik.edi.stream.messages.PaymentMessage;
@@ -30,6 +31,12 @@ public class JsonSerdes {
         return Serdes.serdeFrom(
                 (topic, data) -> writeValue(data),
                 (topic, data) -> readValue(data, CartMessage.class));
+    }
+    
+    public static Serde<ArticleAddedToCartMessage> addedToCartMessage() {
+    	return Serdes.serdeFrom(
+    			(topic, data) -> writeValue(data),
+    			(topic, data) -> readValue(data, ArticleAddedToCartMessage.class));
     }
     
     public static Serde<PaymentMessage> paymentMessage() {
