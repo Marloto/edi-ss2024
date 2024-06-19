@@ -8,14 +8,17 @@ import org.springframework.stereotype.Service;
 
 import de.thi.informatik.edi.shop.shopping.model.Article;
 import de.thi.informatik.edi.shop.shopping.repositories.ArticleRepository;
+import de.thi.informatik.edi.shop.shopping.services.messages.ArticleMessage;
 import jakarta.annotation.PostConstruct;
 
 @Service
 public class ArticleService {
 	private ArticleRepository articles;
+	private MessageProducerService messages;
 
-	public ArticleService(@Autowired ArticleRepository articles) {
+	public ArticleService(@Autowired ArticleRepository articles, @Autowired MessageProducerService messages) {
 		this.articles = articles;
+		this.messages = messages;
 	}
 	
 	@PostConstruct
@@ -35,6 +38,7 @@ public class ArticleService {
 		article.setPrice(price);
 		article.setQuantity(quantity);
 		articles.save(article);
+		messages.send("article", id.toString(), ArticleMessage.fromArticle(article));
 		return article;
 	}
 
