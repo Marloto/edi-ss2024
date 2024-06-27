@@ -1,8 +1,5 @@
 package de.thi.informatik.edi.stream.messages;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 public class AggregatePrice {
     private double price;
     private int count;
@@ -13,9 +10,21 @@ public class AggregatePrice {
     }
     
     public AggregatePrice update(OrderAndPayment data) {
-        this.price = data.getOrder().getPrice();
+        this.price += data.getOrder().getPrice();
         this.count ++;
         return this;
+    }
+    
+    public AggregatePrice update(ShoppingOrderMessage data) {
+    	this.price += data.getPrice();
+    	this.count ++;
+    	return this;
+    }
+    
+    public AggregatePrice update(ShoppingOrderItemMessage data) {
+    	this.price += data.getPrice();
+    	this.count ++;
+    	return this;
     }
     
     public int getCount() {

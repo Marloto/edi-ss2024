@@ -18,6 +18,7 @@ import de.thi.informatik.edi.stream.messages.CartMessage;
 import de.thi.informatik.edi.stream.messages.PaymentMessage;
 import de.thi.informatik.edi.stream.messages.PickUpMessage;
 import de.thi.informatik.edi.stream.messages.ShippingMessage;
+import de.thi.informatik.edi.stream.messages.ShoppingOrderItemMessage;
 import de.thi.informatik.edi.stream.messages.ShoppingOrderMessage;
 import de.thi.informatik.edi.stream.messages.StockChangeMessage;
 
@@ -61,6 +62,12 @@ public class JsonSerdes {
         return Serdes.serdeFrom(
                 (topic, data) -> writeValue(data),
                 (topic, data) -> readValue(data, ShoppingOrderMessage.class));
+    }
+    
+    public static Serde<ShoppingOrderItemMessage> shoppingOrderItemMessage() {
+    	return Serdes.serdeFrom(
+    			(topic, data) -> writeValue(data),
+    			(topic, data) -> readValue(data, ShoppingOrderItemMessage.class));
     }
     
     public static Serde<StockChangeMessage> stockChangeMessage() {
